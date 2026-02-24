@@ -98,10 +98,10 @@ export default function AnalyticsContent({ plan }: { plan: Plan }) {
         interval === "daily"
           ? `${item._id.day}/${item._id.month}/${item._id.year}`
           : interval === "weekly"
-          ? `Week ${item._id.week} ${item._id.year}`
-          : interval === "monthly"
-          ? `${item._id.month}/${item._id.year}`
-          : `${item._id.year}`,
+            ? `Week ${item._id.week} ${item._id.year}`
+            : interval === "monthly"
+              ? `${item._id.month}/${item._id.year}`
+              : `${item._id.year}`,
       views: item.views,
     })) ?? [];
 
@@ -242,12 +242,6 @@ export default function AnalyticsContent({ plan }: { plan: Plan }) {
                     stroke="#3b82f6"
                     strokeWidth={2}
                     dot={false}
-                    label={{
-                      value: "Days", // legend text
-                      position: "insideBottom", // or "bottom"
-                      offset: -5,
-                      style: { fontSize: 14, fill: "#374151" }, // Tailwind slate-700
-                    }}
                   />
                 </LineChart>
               </ResponsiveContainer>
