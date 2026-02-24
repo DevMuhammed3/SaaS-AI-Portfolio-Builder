@@ -1,12 +1,12 @@
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { countUsers } from "@/actions/user";
+// import { countUsers } from "@/actions/user";
 import { ErrorBoundary } from "@/components/custom/error-boundary";
 import { getMessages, generateSEOMetadata } from "@/lib/intl";
 import { validateUserCount } from "@/lib/security";
 import type { SEOMetadata } from "@/types/landing";
 import { devLog } from "@/lib/utils";
-import StoryClient from "@/components/story-client"
+// import StoryClient from "@/components/story-client"
 
 // Nextjs ISR caching strategy
 export const revalidate = 86400; //24 hours
