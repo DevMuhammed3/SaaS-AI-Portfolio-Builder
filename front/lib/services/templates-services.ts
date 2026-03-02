@@ -78,13 +78,17 @@ class TemplatesService {
       }
 
       const queryString = params.toString();
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/templates${
-        queryString ? `?${queryString}` : ""
-      }`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/templates${queryString ? `?${queryString}` : ""
+        }`;
 
       const response = await apiClient.get(url, { headers });
       if (response.data.success) {
-        return response.data.templates;
+        return {
+          data: response.data.templates.data,
+          total: response.data.templates.total,
+          page: response.data.templates.page,
+          totalPages: response.data.templates.totalPages,
+        };
       }
 
       throw new Error(response.data.error || "Failed to fetch portfolios");
@@ -114,13 +118,17 @@ class TemplatesService {
       }
 
       const queryString = params.toString();
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/user/templates${
-        queryString ? `?${queryString}` : ""
-      }`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/user/templates${queryString ? `?${queryString}` : ""
+        }`;
 
       const response = await apiClient.get(url, { headers });
       if (response.data.success) {
-        return response.data.templates;
+        return {
+          data: response.data.templates.data,
+          total: response.data.templates.total,
+          page: response.data.templates.page,
+          totalPages: response.data.templates.totalPages,
+        };
       }
 
       throw new Error(response.data.error || "Failed to fetch templates");

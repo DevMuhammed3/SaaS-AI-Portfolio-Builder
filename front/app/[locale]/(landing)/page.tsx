@@ -66,6 +66,46 @@ const Hero = dynamic(() => import("@/components/modules/landing/hero"), {
   ),
 });
 
+const Problem = dynamic(() => import("@/components/modules/landing/problem"), {
+  ssr: true,
+  loading: () => (
+    <div className="flex-1 flex items-center justify-center">
+      <p className="text-muted-foreground">Loading problem...</p>
+    </div>
+  ),
+});
+
+
+const Features = dynamic(() => import("@/components/modules/landing/features"), {
+  ssr: true,
+  loading: () => (
+    <div className="flex-1 flex items-center justify-center">
+      <p className="text-muted-foreground">Loading features...</p>
+    </div>
+  ),
+});
+
+
+
+const HowItWorks = dynamic(() => import("@/components/modules/landing/how-it-works"), {
+  ssr: true,
+  loading: () => (
+    <div className="flex-1 flex items-center justify-center">
+      <p className="text-muted-foreground">Loading How It Works...</p>
+    </div>
+  ),
+});
+
+
+const CTA = dynamic(() => import("@/components/modules/landing/cta"), {
+  ssr: true,
+  loading: () => (
+    <div className="flex-1 flex items-center justify-center">
+      <p className="text-muted-foreground">Loading CTA...</p>
+    </div>
+  ),
+});
+
 // const Story = dynamic(() => import("@/components/modules/landing/story"), {
 //   ssr: false, // client-only component (if it uses browser APIs like YouTube)
 //   loading: () => (
@@ -126,6 +166,10 @@ export default async function LandingPage() {
           }
         >
           <Hero usersCount={usersCount} />
+          <Problem />
+          <Features />
+          <HowItWorks />
+          <CTA />
         </Suspense>
 
         {/*  Story Section Stream */}

@@ -125,10 +125,14 @@ function Hero({ usersCount }: HeroProps) {
             animate="visible"
             className="flex flex-col justify-center items-center"
           >
-            <m.h1 variants={animationVariants} className="text-center" tabIndex={-1}>
+            <m.h1
+              variants={animationVariants}
+              className="text-center text-3xl sm:text-4xl md:text-5xl font-bold leading-tight"
+              tabIndex={-1}
+            >
               {messages.title}{" "}
               <span
-                className="text-primary-500 bg-gradient-to-r from-primary to-primary/80 bg-clip-text"
+                className="text-primary-500 bg-gradient-to-r px-2 from-primary to-primary/80 bg-clip-text"
                 aria-label={`${messages.titleHighlight} (highlighted)`}
               >
                 {messages.titleHighlight}
