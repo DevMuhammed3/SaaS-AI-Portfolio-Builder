@@ -33,6 +33,7 @@ const DEFAULT_CORS_CONFIG: CORSConfig = {
     "Origin",
     "Accept",
     "Cache-Control",
+    "Pragma",
   ],
   allowCredentials: true,
   maxAge: 86400, // 24 hours
@@ -61,6 +62,7 @@ function getCORSConfig(): CORSConfig {
       "http://127.0.0.1:3001",
       "https://localhost:3000",
       "https://localhost:3001",
+      "https://portfoliobuild.qzz.io"
     ];
   }
 
@@ -151,7 +153,11 @@ function handlePreflightRequest(
 ): NextResponse {
   const origin = request.headers.get("origin");
   const requestMethod = request.headers.get("access-control-request-method");
-  const requestHeaders = request.headers.get("access-control-request-headers");
+  const requestHeaders = request.headers.get(
+    "access-control-request-headers"
+  );
+
+
 
   if (process.env.NODE_ENV === "development") {
     devLog.error("🔍 CORS Preflight Request:", {
@@ -183,11 +189,21 @@ function handlePreflightRequest(
     status: config.optionsSuccessStatus,
   });
 
+  if (requestHeaders) {
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      requestHeaders
+    );
+  }
+
   // Set CORS headers
   setCORSHeaders(response, origin, config);
 
-  if (process.env.NODE_ENV === "development") {
-    devLog.error("CORS Preflight: Request approved");
+  if (requestHeaders) {
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      requestHeaders
+    );
   }
   return response;
 }

@@ -1,65 +1,26 @@
-import { clerkMiddleware, clerkClient } from "@clerk/nextjs/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import { withCSRFProtection } from "@/lib/csrf";
 import { withCORSProtection } from "@/lib/cors";
 
-export default clerkMiddleware(async (auth, request: NextRequest) => {
-  const response = NextResponse.next();
-  const clerk = await clerkClient();
+export default clerkMiddleware(async (_auth, request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
-  const { userId } = await auth();
 
-  // Api that do not require any guard
-  if (request.nextUrl.pathname === "/api/csrf" || pathname.startsWith("/")) {
-    return NextResponse.next(); // Allow without CSRF check
-  }
-
-  // Apply CORS to all API routes first
+  // Apply CORS only to API routes
   if (pathname.startsWith("/api/")) {
-    return withCORSProtection(request, async (request) => {
-      // Then apply CSRF protection
-      return withCSRFProtection(request, async () => {
-        // Continue to the API route
-        return response;
-      });
+    return withCORSProtection(request, async () => {
+
+      // Handle preflight requests
+      if (request.method === "OPTIONS") {
+        return new NextResponse(null, { status: 200 });
+      }
+
+      // Continue to API route
+      return NextResponse.next();
     });
   }
 
-  // Api that do require auth token authentification
-  if (
-    !pathname.startsWith("/api/install") ||
-    !pathname.startsWith("/api/public") ||
-    !pathname.startsWith("/api/webhooks") || //nextjs vercel webhooks only
-    !pathname.startsWith("/") ||
-    !pathname.startsWith("/api-docs")
-  ) {
-    if (!userId) {
-      return NextResponse.json(
-        { error: "You are not connected" },
-        { status: 401 }
-      );
-    }
-    return response;
-  }
-
-  // Api that do require authorization (admin role)
-  if (userId && pathname.startsWith("/api/admin")) {
-    if (!userId) {
-      return NextResponse.json(
-        { error: "You are not connected" },
-        { status: 401 }
-      );
-    }
-    const user = await clerk.users.getUser(userId);
-
-    if (user.privateMetadata.role !== "admin") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    return response;
-  }
-  // For all other requests (non-API), just continue
-  return response;
+  // Non-API requests continue normally
+  return NextResponse.next();
 });
 
 export const config = {

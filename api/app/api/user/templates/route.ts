@@ -114,6 +114,22 @@ import { devLog } from "@/lib/utils";
  *       bearerFormat: JWT
  */
 
+export async function OPTIONS() {
+  return NextResponse.json(
+    {},
+    {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "https://portfoliobuild.qzz.io",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true",
+      },
+    }
+  );
+}
+
+
 export async function GET(request: NextRequest) {
   try {
     // Run the auth guard to ensure the user is logged in and authorized
@@ -142,29 +158,38 @@ export async function GET(request: NextRequest) {
     const tags = searchParams.getAll("tags"); // multiple tags
 
     // Build filters object
-    const filters: FilterQuery<TemplateDocument> = { page, limit };
+    const filters: FilterQuery<TemplateDocument> = {};
+
     if (status && status !== "all") filters.status = status;
-    if (search) filters.search = search;
+    if (search) {
+      filters.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } }
+      ];
+    }
     if (tags.length > 0) filters.tags = tags;
     if (premium !== undefined) filters.premium = premium;
 
-    // Fetch all templates (you can extend this with filters later)
-    const templates = await templateRepository.findAllWithFilters(filters);
+    const templates = await templateRepository.findAllWithFilters({
+      filters,
+      page,
+      limit
+    });
 
     // Return the templates in a JSON success response
     return NextResponse.json({
       success: true,
       templates,
     });
-  } catch (error) {
-    // Log any unexpected server error
-    devLog.error("❌ Error fetching templates:", error);
+  } catch (error: any) {
+    console.error("FETCH TEMPLATES ERROR");
+    console.error(error);
+    console.error(error?.stack);
 
-    // Return generic 500 error
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch templates",
+        error: error?.message || "Unknown error",
       },
       { status: 500 }
     );
