@@ -94,7 +94,7 @@ const PaginationControls = memo(
     totalPages: number;
     onChange: (page: number) => void;
   }) => (
-    <div className="flex items-center justify-center gap-2 mt-12">
+    <div className="flex items-center text-gray-200 justify-center gap-2 mt-12">
       <Button
         variant="outline"
         size="sm"

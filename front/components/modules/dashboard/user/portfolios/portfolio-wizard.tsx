@@ -293,7 +293,7 @@ export function PortfolioWizard({ plan }: { plan: Plan }) {
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 0 || loading}
-              className="gap-2 bg-transparent"
+              className="gap-2 text-white bg-transparent"
             >
               <ChevronLeft className="h-4 w-4" />
               Previous

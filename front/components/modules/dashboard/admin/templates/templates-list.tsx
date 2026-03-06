@@ -341,7 +341,7 @@ export function TemplatesList() {
                 >
                   Previous
                 </Button>
-                <span className="flex items-center px-4 text-sm">
+                <span className="flex text-gray-200 items-center px-4 text-sm">
                   Page {pagination.page} of {pagination.totalPages}
                 </span>
                 <Button

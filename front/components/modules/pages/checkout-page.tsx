@@ -163,8 +163,8 @@ const StepIndicator: React.FC<{ currentStep: number }> = ({ currentStep }) => {
           <div className="flex flex-col items-center">
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep >= step.number
-                ? "bg-primary-500 text-gray-900"
-                : "bg-gray-200 text-gray-900"
+                ? "bg-primary text-white"
+                : "bg-gray-200 text-gray-600"
                 }`}
             >
               {currentStep > step.number ? (
@@ -209,7 +209,9 @@ const PaymentMethodCard: React.FC<PaymentMethodCardProps> = ({
 
   return (
     <div
-      className={`border rounded-lg p-4 cursor-pointer transition-all ${isSelected ? "border-primary bg-primary-500" : "hover:border-gray-400"
+      className={`border rounded-lg p-4 cursor-pointer transition-all ${isSelected
+        ? "border-primary bg-primary-50 shadow-sm"
+        : "border-gray-200 hover:border-gray-400"
         }`}
       onClick={() => onSelect(method)}
     >
@@ -283,7 +285,7 @@ const FormField: React.FC<FormFieldProps> = ({
       readOnly={readOnly}
       value={value}
       onChange={onChange}
-      className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+      className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
       placeholder={placeholder}
     />
   </div>
@@ -319,7 +321,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ total }) => (
   <div className="lg:col-span-1">
-    <div className="bg-primary-500 rounded-lg shadow-sm p-6 sticky top-20">
+    <div className="bg-white rounded-xl shadow-md border p-6 sticky top-20">
       <h2 className="text-xl font-medium mb-4 flex items-center">
         <ShoppingCart className="h-5 w-5 mr-2" />
         Order Summary
@@ -327,11 +329,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ total }) => (
 
       <div className="border-t pt-4 space-y-3">
         <div className="flex justify-between">
-          <span className="text-gray-50">Subtotal</span>
+          <span className="text-gray-600">Subtotal</span>
           <span>${total.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-50">Tax</span>
+          <span className="text-gray-600">Tax</span>
           <span>$0.00</span>
         </div>
         <div className="border-t pt-3 flex justify-between font-bold">
@@ -340,7 +342,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ total }) => (
         </div>
       </div>
 
-      <div className="mt-6 bg-primary-300 p-4 rounded-md text-sm text-gray-600">
+      <div className="mt-6 bg-green-50 border border-green-200 p-4 rounded-md text-sm text-gray-700">
         <p className="flex items-center mb-2">
           <CheckCircle className="h-4 w-4  text-green-500 mr-2" />
           Secure checkout
@@ -613,7 +615,7 @@ export default function CheckoutPage({
   }
 
   return (
-    <div className="min-h-screen bg-white py-12">
+    <div className="min-h-screen bg-gray-50 py-12">
       <Container>
         <div className="mb-6">
           <Link
@@ -625,13 +627,13 @@ export default function CheckoutPage({
           </Link>
         </div>
 
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        <h1 className="text-3xl text-gray-600 font-bold mb-8">Checkout</h1>
 
         <StepIndicator currentStep={currentStep} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 text-gray-600 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-primary-500 rounded-lg shadow-sm p-6">
+            <div className="bg-white rounded-xl shadow-md border p-8">
               <AnimatePresence mode="wait">
                 {currentStep === 1 && (
                   <m.div
@@ -641,12 +643,12 @@ export default function CheckoutPage({
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <h2 className="text-xl font-medium mb-6 flex items-center">
+                    <h2 className="text-xl font-medium text-gray-600 mb-6 flex items-center">
                       <User className="mr-2 h-5 w-5" />
                       Customer Information
                     </h2>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 text-gray-600">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FormField
                           id="fullName"
@@ -725,11 +727,11 @@ export default function CheckoutPage({
                       </div>
                     </div>
 
-                    <div className="mt-8 flex justify-end">
+                    <div className="mt-8 flex  justify-end">
                       <Button
                         variant="outline"
                         onClick={goToNextStep}
-                        className="flex items-center"
+                        className="bg-gray-50 text-gray-600 hover:text-gray-100"
                         disabled={
                           !formData.fullName ||
                           !formData.email ||
@@ -810,7 +812,7 @@ export default function CheckoutPage({
                       <Button
                         variant="outline"
                         onClick={goToPreviousStep}
-                        className="flex items-center bg-transparent"
+                        className="flex items-center hover:bg-green-500 bg-transparent"
                       >
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Back
@@ -843,7 +845,7 @@ export default function CheckoutPage({
                     </h2>
 
                     <div className="space-y-6">
-                      <div className="bg-primary-500 p-4 rounded-lg">
+                      <div className="bg-gray-50 p-4 rounded-lg">
                         <h3 className="font-medium mb-3">
                           Customer Information
                         </h3>
@@ -876,7 +878,7 @@ export default function CheckoutPage({
                         </div>
                       </div>
 
-                      <div className="bg-primary-500 p-4 rounded-lg">
+                      <div className="bg-gray-50 p-4 rounded-lg">
                         <h3 className="font-medium mb-3">Payment Method</h3>
                         <div className="flex items-center">
                           {selectedPaymentMethod === "stripe" && (
@@ -929,6 +931,7 @@ export default function CheckoutPage({
                       </Button>
                       {selectedPaymentMethod === "paypal" ? (
                         <Button
+                          variant="outline"
                           onClick={goToPreviousStep}
                           className="flex items-center"
                           disabled={isProcessing}

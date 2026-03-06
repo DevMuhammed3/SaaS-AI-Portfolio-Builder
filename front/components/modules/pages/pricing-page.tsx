@@ -129,7 +129,7 @@ const PricingCard = memo(
           <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
           <CardDescription>{plan.description}</CardDescription>
           <div className="mt-4">
-            <span className="text-4xl font-bold text-slate-900">
+            <span className="text-4xl font-bold text-gray-400">
               ${plan.price}
             </span>
           </div>
@@ -140,7 +140,7 @@ const PricingCard = memo(
             {plan.features.map((feature, i) => (
               <div key={i} className="flex items-center">
                 <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="font-bold text-slate-700">{feature}</span>
+                <span className="font-bold text-gray-400">{feature}</span>
               </div>
             ))}
           </div>
@@ -151,7 +151,7 @@ const PricingCard = memo(
             onClick={handleClick}
             variant={plan.buttonVariant}
             className={cn(
-              "w-full",
+              "w-full text-slate-50",
               plan.popular
                 ? "bg-gradient-to-r from-primary-600 to-primary-800 hover:from-primary-800 hover:to-primary-600 transition-colors duration-300 ease-in-out"
                 : ""
